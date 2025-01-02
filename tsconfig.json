@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "target": "ES6" ,
+    "module": "ESNext" ,
+    "lib": [
+      "dom",
+      "es5",
+      "es6",
+      "es7",
+      "es2017"
+    ] ,
+    "allowJs": false,
+    "sourceMap": true,
+    "removeComments": true ,
+    "strict": true ,
+    "baseUrl": "./" ,
+    "allowSyntheticDefaultImports": true ,
+    "esModuleInterop": true ,
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "awesomeTypescriptLoaderOptions": {
+    "useWebpackText": true,
+    "useTranspileModule": true,
+    "doTypeCheck": true,
+    "forkChecker": true
+  },
+  "exclude": ["node_modules", "dist", "static"]
+}
