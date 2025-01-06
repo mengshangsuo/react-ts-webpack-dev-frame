@@ -6,6 +6,16 @@ const paths = require('./paths');
 const { argv } = require('yargs');
 const isDev = argv.mode === 'development';
 
+
+console.log('---process.env.theme---- ', process.argv);
+
+function loadCoustomLess(){
+  const path = require('path');
+  const glob = require('glob');
+  const lessFiles = glob.sync(path.resolve(__dirname, '../src/**/*.less'));
+  return lessFiles;
+};
+
 /** @type {import('webpack').Configuration} */
 module.exports = {
   entry: './src/index.tsx',
@@ -45,6 +55,8 @@ module.exports = {
                 javascriptEnabled: true,
               },
             },
+            // 动态加载less文件
+            // globalVarsPath: loadCoustomLess()
           },
         ],
       },

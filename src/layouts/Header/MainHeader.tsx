@@ -1,19 +1,21 @@
-import { Button, DatePicker, Space } from 'antd';
+import { Button } from 'antd';
 import React from 'react';
-import { Outlet } from 'react-router-dom';
-
 import { useTranslation } from 'react-i18next';
-// import '../../../node_modules/serve-index/public/style.css';
 
-const HomePage: React.FC = () => {
+import './MainHeaderStyle.less';
+
+const MainHeader: React.FC = () => {
   const { t } = useTranslation();
   const { i18n } = useTranslation();
+  function changeLanguage(lang: string) {
+    i18n.changeLanguage(lang);
+  }
   return (
-    <div>
+    <div className="main-header-container">
       <Button
         type="primary"
         onClick={() => {
-          i18n.changeLanguage('zh');
+          changeLanguage('zh');
         }}
         style={{ marginRight: 10 }}
       >
@@ -22,18 +24,14 @@ const HomePage: React.FC = () => {
       <Button
         type="primary"
         onClick={() => {
-          i18n.changeLanguage('en');
+          changeLanguage('en');
         }}
         style={{ marginRight: 10 }}
       >
         {t('common.lang.en')}
       </Button>
-      <Space direction="vertical">
-        <DatePicker />
-      </Space>
-      <hr />
-      <Outlet />
     </div>
   );
 };
-export default HomePage;
+
+export default MainHeader;

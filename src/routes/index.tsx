@@ -7,11 +7,12 @@ import AboutChild from '@/pages/About/Child';
 import HomePage from '@/pages/Home';
 import HomeChild from '@/pages/Home/Child';
 import RouterErrorPage from '@/layouts/ErrorPage/RouterErrorPage';
+import MainLayout from '@/layouts/MainLayout';
 
 const RouterConfig: RouteObject[] = [
   {
     path: '/',
-    element: <HomePage></HomePage>,
+    element: <MainLayout></MainLayout>,
     errorElement: <RouterErrorPage></RouterErrorPage>,
   },
   {

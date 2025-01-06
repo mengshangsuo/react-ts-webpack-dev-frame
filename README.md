@@ -66,7 +66,9 @@ yarn dev
 
 ## 更新
 
-- 2021-08-19：lint 配置调整优化
-- 2021-08-26：热更新调整、bug fix
+lint 配置调整优化
+
+热更新调整、bug fix
   - 热更新插件 react-hot-loader 改用 react-refresh
-  - history 实例由 react-router-dom/useHistory 改用 history/createBrowserHistory，解决 history 为 undefined 问题
+
+国际化采用 react-i18next实现  可参考知乎:https://juejin.cn/post/7380579033547702309?searchId=202501030914069B181C2C4C65B213705D
