@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreact_ts_webpack_dev_frame=self.webpackChunkreact_ts_webpack_dev_frame||[]).push([[746],{5746:function(e,s,a){a.r(s);a(6540);var c=a(7767),r=a(4848);s.default=()=>(0,r.jsxs)("div",{children:["About Page",(0,r.jsx)("hr",{}),(0,r.jsx)(c.sv,{})]})}}]);
