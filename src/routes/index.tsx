@@ -1,38 +1,52 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { createHashRouter, RouteObject } from 'react-router-dom';
 
-import AboutPage from '@/pages/About';
-import AboutChild from '@/pages/About/Child';
+// 使用 React.lazy 实现路由懒加载
+const MainLayout = React.lazy(() => import('@/layouts/MainLayout'));
+const HomePage = React.lazy(() => import('@/pages/Home'));
+const HomeChild = React.lazy(() => import('@/pages/Home/Child'));
+const AboutPage = React.lazy(() => import('@/pages/About'));
+const AboutChild = React.lazy(() => import('@/pages/About/Child'));
+const RouterErrorPage = React.lazy(() => import('@/layouts/ErrorPage/RouterErrorPage'));
 
-import HomePage from '@/pages/Home';
-import HomeChild from '@/pages/Home/Child';
-import RouterErrorPage from '@/layouts/ErrorPage/RouterErrorPage';
-import MainLayout from '@/layouts/MainLayout';
+// 加载中的占位组件
+const LoadingFallback = () => (
+  <div style={{ padding: '20px', textAlign: 'center' }}>加载中...</div>
+);
+
+// 包装 Suspense 的高阶组件
+const withSuspense = (Component: React.LazyExoticComponent<React.ComponentType<any>>) => {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <Component />
+    </Suspense>
+  );
+};
 
 const RouterConfig: RouteObject[] = [
   {
     path: '/',
-    element: <MainLayout></MainLayout>,
-    errorElement: <RouterErrorPage></RouterErrorPage>,
+    element: withSuspense(MainLayout),
+    errorElement: withSuspense(RouterErrorPage),
   },
   {
     path: '/home',
-    element: <HomePage></HomePage>,
-    errorElement: <RouterErrorPage></RouterErrorPage>,
+    element: withSuspense(HomePage),
+    errorElement: withSuspense(RouterErrorPage),
     children: [
       {
         path: 'home/child',
-        element: <HomeChild />,
+        element: withSuspense(HomeChild),
       },
     ],
   },
   {
     path: '/about',
-    element: <AboutPage></AboutPage>,
+    element: withSuspense(AboutPage),
     children: [
       {
         path: 'child',
-        element: <AboutChild />,
+        element: withSuspense(AboutChild),
       },
     ],
   },

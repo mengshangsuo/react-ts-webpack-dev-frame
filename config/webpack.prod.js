@@ -55,46 +55,51 @@ const prodConfig = {
     concatenateModules: true,
     runtimeChunk: 'single',
     splitChunks: {
-      // 指定用于生成名称的分隔符
-      automaticNameDelimiter: '~',
-      // 设置为 all 可能特别强大，因为这意味着 chunk 可以在异步和非异步 chunk 之间共享
       chunks: 'all',
       // 按需加载时的最大并行请求数
       maxAsyncRequests: 30,
-      // 入口点的最大并行请求数
-      maxInitialRequests: 30,
-      // 拆分前必须共享模块的最小 chunks 数
-      minChunks: 1,
-      //  仅在剩余单个 chunk 时生效
-      minRemainingSize: 0,
+      // 入口点的最大并行请求数（降低以减少初始请求数）
+      maxInitialRequests: 20,
       // 生成 chunk 的最小体积（以 bytes 为单位）
-      minSize: 20480,
+      minSize: 20000,
       // 告诉 webpack 尝试将大于 maxSize 个字节的 chunk 分割成较小的部分
-      maxSize: 1024 * 1024,
-      
+      maxSize: 244000, // 244KB，符合 webpack 推荐限制
+
       cacheGroups: {
-        // defaultVendors: {
-        //   test: /[\\/]node_modules[\\/]/,
-        //   priority: -10,
-        //   reuseExistingChunk: true,
-        // },
-        // default: {
-        //   minChunks: 2,
-        //   priority: -20,
-        //   reuseExistingChunk: true,
-        // },
-        commons: {
+        // React 核心库单独打包（变化频率低，可以长期缓存）
+        react: {
+          test: /[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/,
+          name: 'react-vendor',
+          priority: 40,
+          reuseExistingChunk: true,
+        },
+        // Antd 单独打包（体积较大）
+        antd: {
+          test: /[\\/]node_modules[\\/]antd[\\/]/,
+          name: 'antd-vendor',
+          priority: 30,
+          reuseExistingChunk: true,
+        },
+        // React Router 相关
+        reactRouter: {
+          test: /[\\/]node_modules[\\/](react-router|history)[\\/]/,
+          name: 'router-vendor',
+          priority: 25,
+          reuseExistingChunk: true,
+        },
+        // 其他第三方库
+        vendors: {
           test: /[\\/]node_modules[\\/]/,
-          // cacheGroupKey here is `commons` as the key of the cacheGroup
-          name(module, chunks, cacheGroupKey) {
-            const moduleFileName = module
-              .identifier()
-              .split('/')
-              .reduceRight((item) => item);
-            const allChunksNames = chunks.map((item) => item.name).join('~');
-            return `${cacheGroupKey}-${allChunksNames}-${moduleFileName}`;
-          },
-          chunks: 'all',
+          name: 'vendors',
+          priority: 10,
+          reuseExistingChunk: true,
+          minChunks: 1,
+        },
+        // 公共代码
+        common: {
+          minChunks: 2,
+          priority: 5,
+          reuseExistingChunk: true,
         },
       },
     },
@@ -139,6 +144,9 @@ const prodConfig = {
   ].filter(Boolean),
 
   performance: {
+    // 提高入口点大小限制，因为我们已经通过代码分割优化了
+    maxEntrypointSize: 512000, // 500KB
+    maxAssetSize: 512000, // 500KB
     assetFilter: assetFilename => !/(\.map$)|(^(main\.|favicon\.))/.test(assetFilename),
   },
 };
