@@ -10,43 +10,44 @@ const AboutChild = React.lazy(() => import('@/pages/About/Child'));
 const RouterErrorPage = React.lazy(() => import('@/layouts/ErrorPage/RouterErrorPage'));
 
 // 加载中的占位组件
-const LoadingFallback = () => (
-  <div style={{ padding: '20px', textAlign: 'center' }}>加载中...</div>
-);
+const LoadingFallback = () => <div style={{ padding: '20px', textAlign: 'center' }}>加载中...</div>;
 
 // 包装 Suspense 的高阶组件
-const withSuspense = (Component: React.LazyExoticComponent<React.ComponentType<any>>) => {
-  return (
-    <Suspense fallback={<LoadingFallback />}>
-      <Component />
-    </Suspense>
-  );
-};
+const withSuspense = (Component: React.LazyExoticComponent<React.ComponentType<any>>) => (
+  <Suspense fallback={<LoadingFallback />}>
+    <Component />
+  </Suspense>
+);
 
 const RouterConfig: RouteObject[] = [
   {
     path: '/',
     element: withSuspense(MainLayout),
     errorElement: withSuspense(RouterErrorPage),
-  },
-  {
-    path: '/home',
-    element: withSuspense(HomePage),
-    errorElement: withSuspense(RouterErrorPage),
     children: [
       {
-        path: 'home/child',
-        element: withSuspense(HomeChild),
+        index: true,
+        element: withSuspense(HomePage),
       },
-    ],
-  },
-  {
-    path: '/about',
-    element: withSuspense(AboutPage),
-    children: [
       {
-        path: 'child',
-        element: withSuspense(AboutChild),
+        path: 'home',
+        element: withSuspense(HomePage),
+        children: [
+          {
+            path: 'child',
+            element: withSuspense(HomeChild),
+          },
+        ],
+      },
+      {
+        path: 'about',
+        element: withSuspense(AboutPage),
+        children: [
+          {
+            path: 'child',
+            element: withSuspense(AboutChild),
+          },
+        ],
       },
     ],
   },

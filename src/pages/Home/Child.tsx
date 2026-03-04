@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Tag } from 'antd';
 
-const HomePage: React.FC = () => {
+const HomeChild: React.FC = () => {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
@@ -14,10 +14,10 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="app">
-      <Card title="HomePage">
+      <Card title="HomeChild">
         mounted start <Tag color="cyan">count：{count}</Tag> unmounted clear
       </Card>
     </div>
   );
 };
-export default HomePage;
+export default HomeChild;

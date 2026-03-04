@@ -32,6 +32,7 @@ const HomePage: React.FC = () => {
         <DatePicker />
       </Space>
       <hr />
+      1212121
       <Outlet />
     </div>
   );
