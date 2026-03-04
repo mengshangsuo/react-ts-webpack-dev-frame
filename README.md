@@ -64,6 +64,10 @@ yarn dev
 └── tsconfig.json                       // tsconfig
 ```
 
+## git部署
+
+当向dev分支push代码的时候，会触发打包部署，部署后的访问地址是：https://mengshangsuo.github.io/react-ts-webpack-dev-frame
+
 ## 更新
 
 lint 配置调整优化
